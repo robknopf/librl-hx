@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <!-- Shared sources (all platforms) -->
+    <files id="wgutils_common">
+        <compilerflag value="-I${WGUTILS}/include" />
+        <compilerflag value="-I${WGUTILS}/src" />
+        <compilerflag value="-I${RAYLIB}" />
+        <compilerflag value="-DPLATFORM_WEB" if="emscripten" />
+
+        <file name="${WGUTILS}/src/async/wg_op.c" />
+        <file name="${WGUTILS}/src/event/event.c" />
+        <file name="${WGUTILS}/src/fetch_url/fetch_url_common.c" />
+        <file name="${WGUTILS}/src/fileio/fileio_common.c" />
+        <file name="${WGUTILS}/src/json/json.c" />
+        <file name="${WGUTILS}/src/logger/logger.c" />
+        <file name="${WGUTILS}/src/lru_cache/lru_cache.c" />
+        <file name="${WGUTILS}/src/path/path.c" />
+        <file name="${WGUTILS}/src/uri/uri.c" />
+        <!-- cJSON.c is #included by json.c, do not compile separately -->
+        <file name="${WGUTILS}/src/vendor/cwalk/cwalk.c" />
+        <file name="${WGUTILS}/src/vendor/ee/ee.c" />
+        <file name="${WGUTILS}/src/vendor/list/list.c" />
+        <file name="${WGUTILS}/src/vendor/list/list_node.c" />
+        <file name="${WGUTILS}/src/vendor/list/list_iterator.c" />
+        <file name="${WGUTILS}/src/vendor/logger-c/log.c" />
+    </files>
+
+    <!-- Desktop-only sources -->
+    <files id="wgutils_desktop">
+        <compilerflag value="-I${WGUTILS}/include" />
+        <compilerflag value="-I${WGUTILS}/src" />
+
+        <file name="${WGUTILS}/src/fetch_url/fetch_url.c" />
+        <file name="${WGUTILS}/src/fileio/fileio.c" />
+        <file name="${WGUTILS}/src/websocket/websocket.c" />
+    </files>
+
+    <!-- WASM-only sources -->
+    <files id="wgutils_wasm">
+        <compilerflag value="-I${WGUTILS}/include" />
+        <compilerflag value="-I${WGUTILS}/src" />
+        <compilerflag value="-DPLATFORM_WEB" />
+
+        <file name="${WGUTILS}/src/fetch_url/fetch_url.wasm.c" />
+        <file name="${WGUTILS}/src/fetch_url/fetch_url_sync.wasm.c" />
+        <file name="${WGUTILS}/src/fileio/fileio.wasm.c" />
+        <file name="${WGUTILS}/src/websocket/websocket.wasm.c" />
+    </files>
+</xml>

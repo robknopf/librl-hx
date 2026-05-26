@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <files id="raylib">
+        <compilerflag value="-I${RAYLIB}" />
+        <compilerflag value="-I${RAYLIB}/external/glfw/include" unless="emscripten" />
+        <compilerflag value="-D_GLFW_X11" unless="emscripten" />
+        <compilerflag value="-DPLATFORM_DESKTOP_GLFW" unless="emscripten" />
+        <compilerflag value="-DGRAPHICS_API_OPENGL_33" unless="emscripten" />
+        <compilerflag value="-DPLATFORM_WEB" if="emscripten" />
+        <compilerflag value="-DGRAPHICS_API_OPENGL_ES3" if="emscripten" />
+        <compilerflag value="-Wno-unused-result" />
+        <compilerflag value="-Wno-implicit-const-int-float-conversion" />
+        <compilerflag value="-Wno-missing-braces" />
+
+        <file name="${RAYLIB}/raudio.c" />
+        <file name="${RAYLIB}/rcore.c" />
+        <file name="${RAYLIB}/rmodels.c" />
+        <file name="${RAYLIB}/rshapes.c" />
+        <file name="${RAYLIB}/rtext.c" />
+        <file name="${RAYLIB}/rtextures.c" />
+        <file name="${RAYLIB}/rglfw.c" unless="emscripten" />
+    </files>
+</xml>

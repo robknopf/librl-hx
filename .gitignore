@@ -1,0 +1,26 @@
+# Build artifacts
+bin/
+obj/
+build/
+
+# Haxe build artifacts
+*.d.ts
+*.js.map
+*.js
+*.html
+*.wasm
+*.wasm.pre
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Haxelib dev directories
+.haxelib/

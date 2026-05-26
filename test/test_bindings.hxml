@@ -1,0 +1,16 @@
+# Test librl-hx with existing working bindings
+
+# Main class
+-main TestBindings
+
+# Library dependencies
+-lib librl-hx
+
+# JavaScript target
+-js bin/test.js
+-D js-es=2021
+
+# Bindings via `-lib librl-hx` (classPath in haxelib.json).
+
+# Debug
+-debug

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <pragma once="true" />
+
+    <!-- Shorthand variables -->
+    <set name="LIBRL"   value="${haxelib:librl-hx}/project/lib/librl" />
+    <set name="WGUTILS" value="${haxelib:librl-hx}/project/lib/wgutils" />
+    <set name="RAYLIB"  value="${haxelib:librl-hx}/project/lib/raylib/src" />
+
+    <!-- Include paths for hxcpp-generated C++ files -->
+    <files id="haxe">
+        <compilerflag value="-I${LIBRL}/include" />
+        <compilerflag value="-I${LIBRL}/src" />
+        <compilerflag value="-I${WGUTILS}/include" />
+        <compilerflag value="-I${WGUTILS}/src" />
+        <compilerflag value="-I${RAYLIB}" />
+        <compilerflag value="-DPLATFORM_WEB" if="emscripten" />
+        <compilerflag value="-Wno-incompatible-function-pointer-types" />
+    </files>
+
+    <files id="__main__">
+        <compilerflag value="-I${LIBRL}/include" />
+    </files>
+
+    <!-- librl C sources -->
+    <files id="librl">
+        <compilerflag value="-I${LIBRL}/include" />
+        <compilerflag value="-I${LIBRL}/src" />
+        <compilerflag value="-I${WGUTILS}/include" />
+        <compilerflag value="-I${WGUTILS}/src" />
+        <compilerflag value="-I${RAYLIB}" />
+        <compilerflag value="-DPLATFORM_WEB" if="emscripten" />
+        <compilerflag value="-Wno-incompatible-function-pointer-types" />
+
+        <file name="${LIBRL}/src/rl.c" />
+        <file name="${LIBRL}/src/rl_camera3d.c" />
+        <file name="${LIBRL}/src/rl_color.c" />
+        <file name="${LIBRL}/src/rl_debug.c" />
+        <file name="${LIBRL}/src/rl_event.c" />
+        <file name="${LIBRL}/src/rl_font.c" />
+        <file name="${LIBRL}/src/rl_fs.c" />
+        <file name="${LIBRL}/src/rl_handle_pool.c" />
+        <file name="${LIBRL}/src/rl_input.c" />
+        <file name="${LIBRL}/src/rl_logger.c" />
+        <file name="${LIBRL}/src/rl_model.c" />
+        <file name="${LIBRL}/src/rl_music.c" />
+        <file name="${LIBRL}/src/rl_pick.c" />
+        <file name="${LIBRL}/src/rl_render.c" />
+        <file name="${LIBRL}/src/rl_scratch.c" />
+        <file name="${LIBRL}/src/rl_shape.c" />
+        <file name="${LIBRL}/src/rl_sound.c" />
+        <file name="${LIBRL}/src/rl_sprite2d.c" />
+        <file name="${LIBRL}/src/rl_sprite3d.c" />
+        <file name="${LIBRL}/src/rl_text.c" />
+        <file name="${LIBRL}/src/rl_text2d.c" />
+        <file name="${LIBRL}/src/rl_texture.c" />
+        <file name="${LIBRL}/src/rl_version.c" />
+        <file name="${LIBRL}/src/rl_window.c" />
+    </files>
+
+    <!-- Dependency build configs -->
+    <include name="${haxelib:librl-hx}/project/lib/wgutils.xml" />
+    <include name="${haxelib:librl-hx}/project/lib/raylib.xml" />
+
+    <!-- Emscripten compiler tweaks -->
+    <compiler id="emscripten" exe="emcc">
+        <cppflag value="-Wno-inconsistent-missing-override" />
+        <cppflag value="-Wno-overflow" />
+        <cppflag value="-Wno-nontrivial-memcall" />
+    </compiler>
+
+    <!-- Desktop linking -->
+    <target id="haxe" unless="emscripten||static_link">
+        <files id="librl" />
+        <files id="wgutils_common" />
+        <files id="wgutils_desktop" />
+        <files id="raylib" />
+
+        <lib name="-lm" />
+        <lib name="-lpthread" />
+        <lib name="-ldl" />
+        <lib name="-lrt" />
+        <lib name="-lGL" />
+        <lib name="-lX11" />
+        <lib name="-lcurl" />
+    </target>
+
+    <!-- WASM linking -->
+    <target id="haxe" if="emscripten">
+        <files id="librl" />
+        <files id="wgutils_common" />
+        <files id="wgutils_wasm" />
+        <files id="raylib" />
+
+        <lib name="-lm" />
+    </target>
+
+    <!-- Emscripten linker -->
+    <linker id="exe" exe="emcc" replace="true" if="emscripten">
+        <flag value="-s" />
+        <flag value="WASM=1" />
+        <flag value="-s" />
+        <flag value="USE_GLFW=3" />
+        <flag value="-s" />
+        <flag value="FETCH=1" />
+        <flag value="-s" />
+        <flag value="MIN_WEBGL_VERSION=2" />
+        <flag value="-s" />
+        <flag value="MAX_WEBGL_VERSION=2" />
+        <flag value="-s" />
+        <flag value="ALLOW_MEMORY_GROWTH=1" />
+        <flag value="-s" />
+        <flag value="INITIAL_MEMORY=67108864" />
+        <flag value="-lidbfs.js" />
+        <flag value="-s" />
+        <flag value="MODULARIZE=1" />
+        <flag value="-s" />
+        <flag value="EXPORT_ES6=1" />
+        <flag value="-s" />
+        <flag value="EXPORTED_RUNTIME_METHODS=['ccall','cwrap']" />
+
+        <!-- hxcpp GC requires spill-pointers -->
+        <flag value="--Wno-limited-postlink-optimizations" />
+        <flag value="-s" />
+        <flag value="BINARYEN_EXTRA_PASSES='--spill-pointers'" />
+
+        <!-- wasm exceptions for Haxe try/catch -->
+        <flag value="-fwasm-exceptions" />
+
+        <section unless="debug">
+            <flag value="-O3"/>
+        </section>
+        <section if="debug">
+            <flag value="-g"/>
+        </section>
+
+        <ext value="${HXCPP_LINK_EMSCRIPTEN_EXT}"/>
+        <outflag value="-o "/>
+    </linker>
+</xml>

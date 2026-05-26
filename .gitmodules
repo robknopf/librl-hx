@@ -1,0 +1,9 @@
+[submodule "project/lib/librl"]
+	path = project/lib/librl
+	url = https://github.com/robknopf/librl.git
+[submodule "project/lib/wgutils"]
+	path = project/lib/wgutils
+	url = https://github.com/whirlinggizmo/wgutils-c.git
+[submodule "project/lib/raylib"]
+	path = project/lib/raylib
+	url = https://github.com/raysan5/raylib.git

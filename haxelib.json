@@ -1,0 +1,16 @@
+{
+    "name": "librl-hx",
+    "license": "MIT",
+    "tags": ["librl", "haxe", "raylib", "gamedev", "graphics", "wasm"],
+    "description": "Haxe bindings for librl with automatic compilation via hxcpp",
+    "version": "0.1.0",
+    "releasenote": "Initial release with automatic librl compilation via hxcpp",
+    "classPath": "project/lib/librl/bindings/haxe",
+    "url": "https://github.com/robknopf/librl-hx",
+    "contributors": ["robknopf"],
+    "dependencies": {
+        "hxcpp": "",
+        "hxasync": ""
+    },
+    "main": "rl.RL"
+}
