@@ -35,6 +35,14 @@
         <file name="${WGUTILS}/src/websocket/websocket.c" />
     </files>
 
+    <target id="haxe" unless="emscripten||static_link">
+        <lib name="-lcurl" />
+        <lib name="-lnghttp2" />
+        <lib name="-lssl" />
+        <lib name="-lcrypto" />
+        <lib name="-lz" />
+    </target>
+
     <!-- WASM-only sources -->
     <files id="wgutils_wasm">
         <compilerflag value="-I${WGUTILS}/include" />

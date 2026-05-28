@@ -39,6 +39,7 @@
         <file name="${LIBRL}/src/rl_event.c" />
         <file name="${LIBRL}/src/rl_font.c" />
         <file name="${LIBRL}/src/rl_fs.c" />
+        <file name="${LIBRL}/src/rl_handle.c" />
         <file name="${LIBRL}/src/rl_handle_pool.c" />
         <file name="${LIBRL}/src/rl_input.c" />
         <file name="${LIBRL}/src/rl_logger.c" />
@@ -46,6 +47,7 @@
         <file name="${LIBRL}/src/rl_music.c" />
         <file name="${LIBRL}/src/rl_pick.c" />
         <file name="${LIBRL}/src/rl_render.c" />
+        <file name="${LIBRL}/src/rl_scene.c" />
         <file name="${LIBRL}/src/rl_scratch.c" />
         <file name="${LIBRL}/src/rl_shape.c" />
         <file name="${LIBRL}/src/rl_sound.c" />
@@ -69,6 +71,11 @@
         <cppflag value="-Wno-nontrivial-memcall" />
     </compiler>
 
+    <!-- hxcpp uses addTwice on Linux for archive ordering; allow the resulting duplicates -->
+    <linker id="exe" if="linux" unless="emscripten">
+        <flag value="-Wl,--allow-multiple-definition" />
+    </linker>
+
     <!-- Desktop linking -->
     <target id="haxe" unless="emscripten||static_link">
         <files id="librl" />
@@ -82,7 +89,6 @@
         <lib name="-lrt" />
         <lib name="-lGL" />
         <lib name="-lX11" />
-        <lib name="-lcurl" />
     </target>
 
     <!-- WASM linking -->
@@ -97,6 +103,7 @@
 
     <!-- Emscripten linker -->
     <linker id="exe" exe="emcc" replace="true" if="emscripten">
+        <flag value="-Wl,--allow-multiple-definition" />
         <flag value="-s" />
         <flag value="WASM=1" />
         <flag value="-s" />
