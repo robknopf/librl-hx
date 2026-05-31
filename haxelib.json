@@ -12,5 +12,5 @@
         "hxcpp": "",
         "hxasync": ""
     },
-    "main": "rl.RL"
+    "main": "Run"
 }

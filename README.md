@@ -28,6 +28,42 @@ git clone --recursive https://github.com/robknopf/librl-hx.git
 haxelib dev librl-hx /path/to/librl-hx
 ```
 
+Submodule maintenance helpers:
+
+```bash
+haxelib run librl-hx librl-status
+haxelib run librl-hx librl-unpin
+haxelib run librl-hx librl-pin "Update librl submodule"
+haxelib run librl-hx librl-reset
+```
+
+`librl-unpin` is the safe prep step before editing `project/lib/librl`: it fetches `origin`, switches the submodule to `main`, and pulls with `--ff-only` so you do not commit on detached `HEAD`. After pushing `librl/main`, use `librl-pin` to commit the parent repo's updated submodule pointer. Use `librl-reset` to go back to the commit currently pinned by `librl-hx`.
+
+Typical `librl` development flow from inside `librl-hx`:
+
+```bash
+# Optional: inspect parent + submodule state
+haxelib run librl-hx librl-status
+
+# Enter live librl development mode
+haxelib run librl-hx librl-unpin
+
+# Edit project/lib/librl/...
+git -C project/lib/librl add ...
+git -C project/lib/librl commit -m "..."
+git -C project/lib/librl push origin main
+
+# Pin librl-hx to that new librl commit
+haxelib run librl-hx librl-pin "Update librl submodule"
+git push
+```
+
+State model:
+
+- `librl-unpin`: use live `librl/main` for development
+- `librl-pin`: record the current `librl` commit in `librl-hx`
+- `librl-reset`: restore `project/lib/librl` to the commit currently pinned by `librl-hx`
+
 ## Usage
 
 ```hxml
